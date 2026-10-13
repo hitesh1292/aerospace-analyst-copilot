@@ -1,0 +1,11 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pipx install uv
+      - run: uv python install 3.12.12
+      - run: uv sync --locked --only-dev
+      - run: uv run --no-sync ruff check .

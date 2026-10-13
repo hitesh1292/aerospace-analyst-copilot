@@ -1,2 +1,14 @@
 .env
 .venv/
+__pycache__/
+*.py[cod]
+.ruff_cache/
+.pytest_cache/
+.ipynb_checkpoints/
+.chainlit/.files/
+.files/
+data/
+*.db
+*.sqlite
+*.parquet
+.DS_Store

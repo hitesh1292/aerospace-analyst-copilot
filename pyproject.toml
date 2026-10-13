@@ -2,7 +2,7 @@
 name = "aerospace-copilot"
 version = "0.1.0"
 description = "Aerospace Analyst Copilot - production-shaped agentic RAG over EDGAR, NTSB, Launch Library 2"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<3.13"
 dependencies = [
     # api layer (W1)
     "fastapi>=0.115",
@@ -23,6 +23,7 @@ dependencies = [
     "tiktoken>=0.7",
     # retrieval (W4-6)
     "qdrant-client>=1.10",
+    "torch>=2.4",                    # direct dep: [tool.uv.sources] only routes DIRECT deps to the CPU index
     "sentence-transformers>=3.0",   # bge-reranker-base; torch resolves CPU via index below
     # gateway + tracing (W5)
     "litellm==1.105.0",
