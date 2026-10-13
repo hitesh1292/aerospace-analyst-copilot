@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aerospace Analyst Copilot — corrected app mockups (v1.0.0 target)</title>
+<style>
+  :root{--ink:#20262e;--mut:#6b7684;--fnt:#98a2ae;--line:#e3e7ec;--bg:#eef0f3;--card:#fff;
+        --blue:#2458c5;--chip:#eef2fa;--chipb:#c9d6ef;--hl:#fdeeb5;--ok:#2f8a5b;--amber:#b07b12;
+        --fix:#7c3aed;--fixbg:#f3eefe;--mono:"Consolas","SF Mono",monospace}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 "Segoe UI",system-ui,sans-serif;padding:36px 18px 60px}
+  .wrap{max-width:900px;margin:0 auto}
+  h1{font-size:21px;margin:0 0 4px}
+  .sub{color:var(--mut);font-size:13px;margin-bottom:18px}
+  .fixes{background:var(--fixbg);border:1px solid #ddd0f5;border-radius:10px;padding:12px 16px;font-size:13px;margin-bottom:28px}
+  .fixes b{color:var(--fix)}
+  .fixtag{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;border-radius:8px;
+          background:var(--fix);color:#fff;font-size:10px;font-weight:700;padding:0 4px;vertical-align:2px;margin-left:5px}
+  h2{font-size:16px;margin:34px 0 10px}
+  .frame{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 6px 24px rgba(30,40,60,.08);overflow:hidden}
+  .bar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);background:#fafbfc}
+  .dot{width:9px;height:9px;border-radius:50%;background:#d3d8de}
+  .url{flex:1;background:#fff;border:1px solid var(--line);border-radius:14px;padding:4px 14px;
+       font:11px var(--mono);color:var(--mut);text-align:center}
+  .cols{display:grid;grid-template-columns:150px 1fr 208px;min-height:430px}
+  .side{border-right:1px solid var(--line);padding:12px 10px;font-size:12px}
+  .newchat{border:1px solid var(--line);border-radius:16px;text-align:center;padding:6px;font-weight:600;margin-bottom:12px}
+  .side .lab{color:var(--fnt);font-size:11px;margin:8px 0 4px}
+  .recent{border:1px solid var(--line);border-radius:8px;padding:5px 8px;margin-bottom:6px}
+  .stat{color:var(--mut);font-size:11px;margin-top:14px;line-height:1.6}
+  .dotln{display:flex;align-items:center;gap:6px;color:var(--mut);font-size:11px}
+  .g{width:7px;height:7px;border-radius:50%;background:var(--ok);display:inline-block}
+  .main{display:flex;flex-direction:column}
+  .mhead{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line)}
+  .mhead b{font-size:13.5px}
+  .badge{background:#f6efd8;color:var(--amber);border-radius:6px;font-size:10px;font-weight:700;padding:2px 6px}
+  .ver{margin-left:auto;background:#e7f4ec;color:var(--ok);border-radius:10px;font-size:10.5px;font-weight:700;padding:2px 8px}
+  .body{flex:1;padding:14px 16px}
+  .notice{background:#e9f0fd;border-radius:8px;font-size:12px;padding:7px 10px;margin-bottom:10px;color:#37548f}
+  .notice a{color:var(--blue);text-decoration:underline;cursor:default}
+  .chips{margin:0 0 10px}
+  .chip{display:inline-block;background:var(--chip);border:1px solid var(--chipb);color:#41598f;
+        border-radius:10px;font-size:11px;font-weight:600;padding:2px 8px;margin-right:6px}
+  .chip.gray{background:#f2f3f5;border-color:var(--line);color:var(--mut);font-weight:500}
+  .plan{border:1px solid var(--line);border-radius:10px;background:#fafbfc;padding:9px 11px;font-size:12.5px;margin-bottom:10px}
+  .ans{border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-size:13.5px}
+  .cite{color:var(--blue);font-weight:600}
+  .trace{font:11px var(--mono);color:var(--mut);padding:8px 2px 0;display:flex;gap:12px;flex-wrap:wrap}
+  .trace .exp{background:#eee6fb;color:#6c3fc9;border-radius:6px;padding:0 6px;font-weight:700}
+  .fb{display:flex;justify-content:space-between;color:var(--mut);font-size:12px;padding:9px 2px 0}
+  .stars{letter-spacing:2px;color:#c9cfd7}
+  .input{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--line)}
+  .input .box{flex:1;border:1px solid var(--line);border-radius:18px;padding:7px 14px;color:var(--fnt);font-size:13px}
+  .send{width:34px;height:34px;border:1px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--mut)}
+  .foot{font-size:10.5px;color:var(--fnt);padding:0 16px 10px}
+  .foot a{color:var(--blue);margin-right:10px;text-decoration:underline;cursor:default}
+  .panel{border-left:1px solid var(--line);padding:12px;font-size:12px}
+  .panel h4{font-size:11.5px;margin:0 0 8px;display:flex;align-items:center;gap:6px}
+  .psec{color:var(--fnt);font-size:10.5px;text-transform:none;margin:12px 0 4px;font-weight:600}
+  .passage{border:1px solid var(--line);border-radius:8px;padding:9px;font-size:11.5px;color:var(--mut)}
+  .passage mark{background:var(--hl);color:var(--ink)}
+  .plink{display:block;color:var(--blue);font-size:11.5px;margin-top:8px;text-decoration:underline;cursor:default}
+  .mono{font:11px var(--mono);color:var(--mut);line-height:1.7}
+  .mono .b{color:var(--ink)}
+
+  .tl{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px}
+  .tl span{background:#fff;border:1px solid var(--line);border-radius:14px;padding:4px 11px;font-size:11.5px;color:var(--mut)}
+  .tl b{color:var(--ink)}
+  .cap{color:var(--mut);font-size:12.5px;margin:8px 2px 0;max-width:860px}
+  .ghost{color:#b6bec8;font-size:12px;padding:9px 2px 0;font-style:italic}
+  .badge2{display:inline-block;background:#eef7f1;color:var(--ok);border:1px solid #cfe7d8;border-radius:8px;font-size:10.5px;font-weight:700;padding:1px 7px;margin-top:8px}
+</style>
+</head>
+<body><div class="wrap">
+
+<h1>App preview progression — W5 first pass → W8 agent → W16 target</h1>
+<div class="sub">Each frame is pinned to its plan week, so during the build you compare the real app against the frame for that week. Purple tags on the W16 frames mark the five fixes applied to the earlier mockups.</div>
+<div class="tl">
+  <span><b>W5</b> first live: cited answers, source links, retrieval-match badge</span>
+  <span><b>W6</b> badge upgrades to rerank score</span>
+  <span><b>W8</b> agent online + <code>?dev=1</code> layer</span>
+  <span><b>W10</b> grounding badge</span>
+  <span><b>W11</b> stars + Recompute fresh</span>
+  <span><b>W12</b> health dots, panels</span>
+  <span><b>W14</b> cache notice, 40 tickers</span>
+  <span><b>W16</b> v1.0.0: replay link, experiment badge</span>
+</div>
+
+<div class="fixes"><b>Fixes applied:</b>
+<span class="fixtag">1</span> single-agent plan block replaces "Supervisor → 2 sub-agents" (multi-agent is post-v1, D10/plan) &nbsp;
+<span class="fixtag">2</span> exact-match cache wording replaces "similar question" / "semantic miss" (D20/D24) &nbsp;
+<span class="fixtag">3</span> trace label <code>fts</code> replaces <code>bm25</code> (D05 honesty rule) &nbsp;
+<span class="fixtag">4</span> version reads v1.0.0 at W16 &nbsp;
+<span class="fixtag">5</span> 40-ticker corpus now a planned W14 task (was unplanned in mockup); quality health dot sits above the 90% SLO
+</div>
+
+
+<h2>W5 — first live pass (retrieval only; this is what "first public URL" looks like)</h2>
+<div class="frame">
+  <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    <div class="url">aerospace-copilot.up.railway.app</div></div>
+  <div class="cols">
+    <div class="side">
+      <div class="newchat">New chat</div>
+      <div class="lab">Recent</div>
+      <div class="recent">RTX supply chain</div>
+      <div class="stat">10 tickers · 2 yrs of filings</div>
+    </div>
+    <div class="main">
+      <div class="mhead"><b>&#128279; Aerospace Analyst Copilot</b></div>
+      <div class="body">
+        <div class="plan" style="background:#fff">How did RTX's supply chain risk disclosures change 2023 to 2024?</div>
+        <div class="ans">RTX materially expanded its FY2024 disclosure, adding titanium sourcing and single-source powder metal supplier language absent from FY2023 <span class="cite">[1] [2]</span>.</div>
+        <div class="ghost">Was this helpful? ★★★★★ — arrives W11</div>
+      </div>
+      <div class="input"><div class="box">Ask about filings, incidents, or launches</div><div class="send">➤</div></div>
+      <div class="foot">Not investment advice</div>
+    </div>
+    <div class="panel">
+      <h4>[1] Source passage</h4>
+      <div style="font-size:11px;color:var(--mut)">RTX 10-K FY2023 · Item 1A<br>filed Feb 5, 2024</div>
+      <div class="passage" style="margin-top:8px">…<mark>supplier concentration in certain engine component categories</mark> may affect our ability to…</div>
+      <span class="badge2">retrieval match 78%</span>
+      <span class="plink">&#8599; View on SEC EDGAR</span>
+    </div>
+  </div>
+</div>
+<div class="cap">Single-shot RAG: hybrid retrieval + synthesis, nothing else. No chips, no cache, no agent, no stars — the confidence badge is the raw retrieval-match score (it becomes a rerank score in W6 and gains a grounding badge in W10). If the real W5 app looks like this, you are on track.</div>
+
+<h2>W8 — analyst view (agent online behind the scenes)</h2>
+<div class="frame">
+  <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    <div class="url">aerospace-copilot.up.railway.app</div></div>
+  <div class="cols">
+    <div class="side">
+      <div class="newchat">New chat</div>
+      <div class="lab">Recent</div>
+      <div class="recent">RTX supply chain</div>
+      <div class="recent">LMT risk factors</div>
+      <div class="stat">10 tickers · 2 yrs of filings</div>
+    </div>
+    <div class="main">
+      <div class="mhead"><b>&#128279; Aerospace Analyst Copilot</b></div>
+      <div class="body">
+        <div class="chips"><span class="chip">EDGAR · 2 filings</span><span class="chip gray">NTSB · not needed</span></div>
+        <div class="ans">RTX materially expanded its FY2024 disclosure, adding titanium sourcing and single-source powder metal supplier language absent from FY2023 <span class="cite">[1] [2]</span>.</div>
+        <div class="ghost">Was this helpful? ★★★★★ — arrives W11</div>
+      </div>
+      <div class="input"><div class="box">Ask about filings, incidents, or launches</div><div class="send">➤</div></div>
+      <div class="foot">Not investment advice</div>
+    </div>
+    <div class="panel">
+      <h4>[1] Source passage</h4>
+      <div style="font-size:11px;color:var(--mut)">RTX 10-K FY2023 · Item 1A<br>filed Feb 5, 2024</div>
+      <div class="passage" style="margin-top:8px">…<mark>supplier concentration in certain engine component categories</mark> may affect our ability to…</div>
+      <span class="badge2">rerank 0.92</span>
+      <span class="plink">&#8599; View on SEC EDGAR</span>
+      <span class="plink">&#10064; Copy with citation</span>
+    </div>
+  </div>
+</div>
+<div class="cap">Deltas from W5: source chips per query (the agent decides what it needed — "NTSB · not needed" is the fast, honest signal), rerank-score badge (W6), copy-with-citation. Stars still pending W11. Multi-hop questions now work; simple ones fast-path.</div>
+
+<h2>W8 — dev view, <code>?dev=1</code> (first version of the engineering layer)</h2>
+<div class="frame">
+  <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    <div class="url">aerospace-copilot.up.railway.app/?dev=1</div></div>
+  <div class="cols">
+    <div class="side">
+      <div class="newchat">New chat</div>
+      <div class="recent">RTX supply chain</div>
+      <div class="stat">10 tickers · 2 yrs of filings</div>
+    </div>
+    <div class="main">
+      <div class="mhead"><b>&#128279; Aerospace Analyst Copilot</b><span class="badge">dev</span><span class="ver">v0.1.0</span></div>
+      <div class="body">
+        <div class="plan">&#9881; Plan: compared Item 1A across FY2023/FY2024 · 2 hops · 4 of 6 budget steps</div>
+        <div class="ans">RTX materially expanded its FY2024 disclosure… <span class="cite">[1] [2]</span>
+          <div class="trace">req_8f3a2c1d · 12.4s · $0.021 · grounded — (W10) · <a style="color:var(--blue)">Langfuse trace</a></div>
+        </div>
+      </div>
+      <div class="input"><div class="box">Ask a question</div><div class="send">➤</div></div>
+      <div class="foot"><a>View system prompt</a><a>Grafana panels</a></div>
+    </div>
+    <div class="panel">
+      <h4>&#9636; Trace details</h4>
+      <div class="psec">Retrieval routes</div>
+      <div class="mono">[1] <span class="b">fts</span> 1 · rr 0.92<br>[2] <span class="b">fts</span> 2 · rr 0.94</div>
+      <div class="psec">Tokens</div>
+      <div class="mono">in 3,214 · out 412<br>synthesis: glm-4-air</div>
+      <div class="psec">Links</div>
+      <span class="plink">Langfuse trace</span>
+      <span class="plink">System prompt</span>
+      <span class="plink">Grafana panels</span>
+    </div>
+  </div>
+</div>
+<div class="cap">The whole dev layer is ~1h of conditional rendering (the data already flows to Langfuse/Postgres). Note what's honestly absent at W8: grounding score (W10), experiment badge (W15), health dots (W12), replay link (W16), cache line (W14). Labels already say <code>fts</code>, not bm25 — start correct, don't retrofit.</div>
+
+<h2>W16 — analyst view, clean URL (what testers and recruiters use)</h2>
+<div class="frame">
+  <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    <div class="url">aerospace-copilot.up.railway.app</div></div>
+  <div class="cols">
+    <div class="side">
+      <div class="newchat">New chat</div>
+      <div class="lab">Recent</div>
+      <div class="recent">RTX vs BA risks</div>
+      <div class="recent">Q3 launch failures</div>
+      <div class="stat">40 tickers · 12,400 chunks<span class="fixtag">5</span><br><span class="dotln"><span class="g"></span> updated 2h ago</span></div>
+    </div>
+    <div class="main">
+      <div class="mhead"><b>&#128279; Aerospace Analyst Copilot</b></div>
+      <div class="body">
+        <div class="notice">&#9889; Same question answered before — served instantly. <a>Recompute fresh</a><span class="fixtag">2</span></div>
+        <div class="chips"><span class="chip">EDGAR · 4</span><span class="chip">NTSB · 7</span></div>
+        <div class="ans">Both issuers expanded FY2024 disclosures: RTX on powder metal and titanium <span class="cite">[1]</span>, Boeing on fastener quality escapes <span class="cite">[2]</span>…</div>
+        <div class="fb"><span>Was this helpful?</span><span class="stars">★★★★★</span></div>
+      </div>
+      <div class="input"><div class="box">Ask about filings, incidents, or launches</div><div class="send">➤</div></div>
+      <div class="foot">Not investment advice</div>
+    </div>
+    <div class="panel">
+      <h4>[1] Source passage</h4>
+      <div style="font-size:11px;color:var(--mut)">RTX 10-K FY2024 · Item 1A<br>filed Feb 3, 2025</div>
+      <div class="passage" style="margin-top:8px">…<mark>titanium sponge and powder metal used in engine components are available from single or limited sources</mark>…</div>
+      <span class="plink">&#8599; View on SEC EDGAR</span>
+      <span class="plink">&#10064; Copy with citation</span>
+    </div>
+  </div>
+</div>
+
+<h2>W16 — dev view, <code>?dev=1</code> (the LinkedIn hero)</h2>
+<div class="frame">
+  <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    <div class="url">aerospace-copilot.up.railway.app/?dev=1</div></div>
+  <div class="cols">
+    <div class="side">
+      <div class="newchat">New chat</div>
+      <div class="recent">RTX vs BA risks</div>
+      <div class="stat">40 tickers · 12,400 chunks</div>
+      <div class="stat">
+        <span class="dotln"><span class="g"></span> sources</span>
+        <span class="dotln"><span class="g"></span> quality 91% ↑<span class="fixtag">5</span></span>
+        <span class="dotln"><span class="g"></span> drift</span>
+      </div>
+    </div>
+    <div class="main">
+      <div class="mhead"><b>&#128279; Aerospace Analyst Copilot</b><span class="badge">dev</span><span class="ver">v1.0.0<span class="fixtag">4</span></span></div>
+      <div class="body">
+        <div class="plan">&#9881; Plan: compared FY2024 risk disclosures across RTX + BA · 2 hops · 4 of 6 budget steps<span class="fixtag">1</span><br>
+          <span class="chip" style="margin-top:6px">EDGAR · 2 steps · $0.008</span><span class="chip">NTSB · 1 step · $0.004</span>
+        </div>
+        <div class="ans">Both issuers expanded FY2024 disclosures… <span class="cite">[1] [2] [3]</span>
+          <div class="trace">req_2b7e91af · 17.8s · $0.019 · grounded 0.97 · <span class="exp">exp-002 · B</span> · <a style="color:var(--blue)">Langfuse trace</a></div>
+        </div>
+      </div>
+      <div class="input"><div class="box">Ask a question</div><div class="send">➤</div></div>
+      <div class="foot"><a>How this works</a><a>Experiments log</a><a>Live quality dashboard</a></div>
+    </div>
+    <div class="panel">
+      <h4>&#9636; Trace details</h4>
+      <div class="psec">Retrieval routes</div>
+      <div class="mono">[1] <span class="b">fts</span> 1 · rr 0.94<span class="fixtag">3</span><br>[2] dense 3 · rr 0.91<br>[3] sql · temporal ok</div>
+      <div class="psec">Tokens</div>
+      <div class="mono">in 8,930 · out 655<br>cache: <span class="b">exact miss</span><span class="fixtag">2</span></div>
+      <div class="psec">Links</div>
+      <span class="plink">Langfuse trace</span>
+      <span class="plink">System prompt</span>
+      <span class="plink">Grafana panels</span>
+      <span class="plink">Replay checkpoint</span>
+    </div>
+  </div>
+</div>
+
+<div class="sub" style="margin-top:22px">Design contract unchanged from the originals: analyst panel is always evidence, dev layer is the same skeleton behind one boolean, nothing engineering-flavored on the clean URL. <code>?dev=1</code> remains a demo convenience, not access control (stated limitation; L2: API-key-gated debug role).</div>
+
+</div></body>
+</html>
